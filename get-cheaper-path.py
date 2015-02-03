@@ -1,5 +1,5 @@
 """
-Get shortest path between 2 nodes in the graphdb Train stations of US attached
+Get shortest weighted path between 2 nodes in the graphdb Train stations of US attached
 """
 
 # NODES: Train stations
@@ -7,7 +7,7 @@ Get shortest path between 2 nodes in the graphdb Train stations of US attached
 #	- prop_latitude(float) --> latitude
 #	- prop_longitude(float) --> longitude
 
-# RELACIONES: rails
+# RELATIONSHIPS: rails
 #	- STFIPS1(int): Weight between 2 stations
 
 import sys, re
@@ -15,29 +15,29 @@ from neo4jrestclient.client import GraphDatabase
 
 db = GraphDatabase("http://localhost:7474/db/data/")
 
-################ CHECK PARAMETROS #####################
+################ CHECK INPUT PARAMETERS #####################
 
 if len(sys.argv) != 3:
-	raise Exception('Introduzca exactamente 2 ids de estaciones')
+	raise Exception('Input 2 stations')
 
 for i in sys.argv[1:]:
 	try:
 		int(i)
 	except Exception:
-		raise Exception('Solo permitido valores enteros')
+		raise Exception('Only integers values are allowed')
 
-################ INICIO PROGRAMA #####################
+################ START #####################
 
-#Constantes
+#Constants
 id_start = int(sys.argv[1])
 id_end = int(sys.argv[2])
 
-#Comprobamos que los nodos existen con los ids introducidos
+#Checking nodes exist in neo4jDB
 try:
  	start_Station = db.nodes[id_start]
  	end_Station = db.nodes[id_end]
 except (Exception):
-	raise Exception('Al menos uno de los 2 nodos introducidos no existe en la DB')
+	raise Exception('At least 1 node doesnt exist in the neo4jDB')
 
 ################ QUERY DB ############################
 
@@ -50,11 +50,10 @@ LIMIT 1
 """
 result = db.query(q, params={"start_id": id_start, "end_id": id_end})
 
-################ RESULTADO ###########################
+################ RESULT ###########################
 
 if len(result) == 0:
 	print "There is no path"
 else:
-	#Obtenemos los nodos del camino de la estructura obtenida
 	path = [re.search(r'\d+$', node).group(0) for node in result[0][0]['nodes']]
 	print "Cheaper path: {path}".format(path = '-'.join(path))
