@@ -1,31 +1,14 @@
 """
-Pregunta 3
-Inicie el servidor con el dataset grahpDb anexo a la actividad.
-El grafo almacenado es una parte de la red ferroviaria de los Estados Unidos. Contiene 133 753 nodos y 174 428 relaciones. 
-Cada nodo puede ser interpretado como una estacion y cada relacion representa la via de tren que une directamente dos estaciones.
-Las relaciones tienen una propiedad llamada STFIPS1 que representa el costo de transporte entre las dos estaciones.
- Esta propiedad es una cadena que contiene un numero entero.
-Los nodos tienen una propiedad llamada prop_node_id que identifica las estaciones con un numero entero.
- Ademas, cada nodo tiene un par de propiedades (prop_latitude, prop_longitude) con las coordenadas de la estacion.
-Escriba un programa en Python que reciba como parametros los identificadores enteros de dos nodos cualesquiera del grafo 
-y devuelva el camino menos costoso entre ambos (aquel donde la suma de los costos de transporte sea menor).
-Si no existiera un camino entre las estaciones, que se muestre un mensaje indicandolo.
-Nota: Consideraremos que las vias se pueden recorrer en ambas direcciones.
-Ejemplo de salidas:
-$> python get-cheaper-path.py 13 12
-Cheaper path: 13 - 24 - 12
-$> python get-cheaper-path.py 15 16
-There is no path
+Get shortest path between 2 nodes in the graphdb Train stations of US attached
 """
 
-# NODOS: Estaciones trenes 
+# NODES: Train stations
 #	- prop_node_id(int) --> Id
-#	- prop_latitude(float) --> Coordenada latitud
-#	- prop_longitude(float) --> Coordenada longitud
+#	- prop_latitude(float) --> latitude
+#	- prop_longitude(float) --> longitude
 
-# RELACIONES: Vias
-#	- STFIPS1(int): Peso entre 2 estaciones
-
+# RELACIONES: rails
+#	- STFIPS1(int): Weight between 2 stations
 
 import sys, re
 from neo4jrestclient.client import GraphDatabase
